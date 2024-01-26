@@ -19,6 +19,7 @@ app.get("/", (req, res, next) => {
             replace: 'a'
         }
     ];
+    
 
     texto = "teste de exclusão de ? e a";
 
