@@ -1,121 +1,51 @@
 const express = require("express");
 const app = express();
+
+
+
+app.get("/", (req, res) => {
+    res.sendFile(__dirname + "/html/index.html");  
+});
+
+app.get("/teste", (req, res) => {
+    var kanjis = require('./kanjis.js'); //recebe o array kanjis de outro arquivo
+        kanjis = kanjis.kanjis;//acessa o array no outro arquivo
+
+    var n1= ""; 
+    var n2= "";
+    var n3= "";
+    var n4= "";
+    var n5= "";
+    
+    var text = "texto de teste";
+
+    const remove =  /[?あいうえおかきくけこさしすせそたちつてとなにぬねのはひふヘほまみむめもやゆよらりるれろわをんアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンぁぃぅぇぉゃゅょァィゥェォャュョっッがぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポー。、…！0123456789/":!,';~](\r\n|\n|\r)/gm;  
+    newText = text.replace(remove,''); //pega o texto e remove todos os caracteres listados na variavel remove
+
+
+    for(const charactere of kanjis){
+        const regex = new RegExp(charactere.kanji,"g");
+        const matchRegex = newText.match(regex)
+            if(matchRegex){          
+                charactere.level == 1 ? n1++ : '';
+                charactere.level == 2 ? n2++ : '';
+                charactere.level == 3 ? n3++ : '';
+                charactere.level == 4 ? n4++ : '';
+                charactere.level == 5 ? n5++ : '';
+            }
+    };
+    res.json({
+        newText,
+        n1,
+        n2,
+        n3,
+        n4,
+        n5
+    })
+
+});
+
+
 app.listen(3000, () => {
     console.log("Server running on port 3000");
 });
-var n1 = 0;
-var n2 = 0;
-var n3 = 0;
-var n4 = 0;
-var n5 = 0;
-
-var bancoTemp = [	
-	//Kanjis N5
-	["日","5"],
-	//Kanjis N4
-	["会","4"],
-	//Kanjis N3
-	["政","3"],
-	//Kanjis N2
-	["党","2"],
-	//Kanjis N1
-	["氏","1"]
-];
-
-
-
-
-app.get("/", (req, res, next) => {
-
-
-  characteres = [
-        {
-            regex: /[?]/g,
-            replace: '2'
-        },
-        {
-            regex: /[a]/g,
-            replace: '3'
-        }
-    ];
-    
-
-    texto = "teste de exclusão de ? e a 会党";
-
-    for (const e of characteres) {
-        texto = texto.replace(e.regex, e.replace)
-    }
-    //res.json({ texto })
-    res.json({ texto })
-    txtArray = texto.split(''); //transforma string em array
-
-    txtArray.forEach((caracter)=>{
-        for(var lin = 0 ; lin < bancoTemp.length; lin++){
-            for(var col = 0 ; col < 2 ; col++){
-
-                if (caracter == bancoTemp[lin][col]) {
-                    
-                    for ( i = 1 ; i < 6 ; i++) {
-                        if (bancoTemp[lin][col+1] == i) {
-                        
-                            n+i++;
-                           
-                        }  
-                       
-                    }
-                }
-                console.log(bancoTemp[lin][col]);
-            }
-        }
-        
-    });
-
-    console.log(n1);
-    console.log(n2);
-    console.log(n3);
-    console.log(n4);
-    console.log(n5);
-    console.log(aux); 
-});
-
-
-
- //res.json({ texto })
-
-   // console.log(texto)
-    
-   // txtArray = texto.split(''); //transforma string em array
-   /* txtArray.forEach((caracter)=>{
-            for(var lin = 0 ; lin < bancoTemp.length; lin++){
-                for(var col = 0 ; col < 2 ; col++){
-    
-                    if (caracter == bancoTemp[lin][col]) {
-                        if (bancoTemp[lin][col+1] == 1) {
-                            n1++;
-                        }
-                        if (bancoTemp[lin][col+1] == 2) {
-                            n2++;
-                        }
-                        if (bancoTemp[lin][col+1] == 3) {
-                            n3++;
-                        }
-                        if (bancoTemp[lin][col+1] == 4) {
-                            n4++;
-                        }
-                        if (bancoTemp[lin][col+1] == 5) {
-                            n5++;
-                        }
-                        for ( i ; i < 6 ; i++) {
-                            if (bancoTemp[lin][col+1] == i) {
-                                n1++;
-                                console.log(i);  
-                            }  
-                           
-                        }
-                    }
-                    console.log(bancoTemp[lin][col]);
-                }
-            }
-        });
-       
-    */
