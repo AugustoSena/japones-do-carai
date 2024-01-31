@@ -1,23 +1,29 @@
 const express = require("express");
 const app = express();
+const bodyParser = require('body-parser');
 
+
+//CONFIG
+    //body parser
+    app.use(bodyParser.urlencoded({extended:false}));
+    app.use(bodyParser.json());
 
 
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/html/index.html");  
 });
 
-app.get("/teste", (req, res) => {
+app.post("/teste", (req, res) => {
     var kanjis = require('./kanjis.js'); //recebe o array kanjis de outro arquivo
         kanjis = kanjis.kanjis;//acessa o array no outro arquivo
 
-    var n1= ""; 
-    var n2= "";
-    var n3= "";
-    var n4= "";
-    var n5= "";
+    let n1= ""; 
+    let n2= "";
+    let n3= "";
+    let n4= "";
+    let n5= "";
     
-    var text = "texto de teste";
+    var text = req.body.texto;
 
     const remove =  /[?あいうえおかきくけこさしすせそたちつてとなにぬねのはひふヘほまみむめもやゆよらりるれろわをんアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンぁぃぅぇぉゃゅょァィゥェォャュョっッがぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポー。、…！0123456789/":!,';~](\r\n|\n|\r)/gm;  
     newText = text.replace(remove,''); //pega o texto e remove todos os caracteres listados na variavel remove
@@ -34,16 +40,32 @@ app.get("/teste", (req, res) => {
                 charactere.level == 5 ? n5++ : '';
             }
     };
-    res.json({
-        newText,
-        n1,
-        n2,
-        n3,
-        n4,
-        n5
-    })
+    res.json([
+        {
+            nivel: "n1",
+            quantidade: n1
+        },
+        {
+            nivel: "n2",
+            quantidade: n2
+        },
+        {
+            nivel: "n3",
+            quantidade: n3
+        },
+        {
+            nivel: "n4",
+            quantidade: n4
+        },
+        {
+            nivel: "n5",
+            quantidade: n5
+        }
+        
+    ]);
 
 });
+
 
 
 app.listen(3000, () => {
