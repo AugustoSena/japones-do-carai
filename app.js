@@ -1,19 +1,16 @@
 const express = require("express");
 const app = express();
-const bodyParser = require('body-parser');
+
 
 
 //CONFIG
-    //body parser
-    app.use(bodyParser.urlencoded({extended:false}));
-    app.use(bodyParser.json());
 
 
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/html/index.html");  
 });
 
-app.post("/teste", (req, res) => {
+app.get("/", (req, res) => {
     var kanjis = require('./kanjis.js'); //recebe o array kanjis de outro arquivo
         kanjis = kanjis.kanjis;//acessa o array no outro arquivo
 
@@ -68,6 +65,6 @@ app.post("/teste", (req, res) => {
 
 
 
-app.listen(3000, () => {
-    console.log("Server running on port 3000");
+app.listen(4041, () => {
+    console.log("Server running on port 4041");
 });

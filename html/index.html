@@ -30,7 +30,7 @@
             <h5>Total de kanjis analisados:</h5>
         </div>
         <div class="col">
-            <h5>123</h5>
+            <h5></h5>
         </div>
     </div>
     <div class="row" id="print-results" style="margin-top: 2%;">
@@ -50,23 +50,6 @@
             <h5 >N5: </h5>
         </div>
     </div>
-    <script>
-        function carregar(){
-            fetch( "./app.js")
-                .then(response => response.json())
-                .then(resultado => {
-                    const results = document.querySelector('#print-results')
-
-                    results.map(result => {
-                        const print = document.createElement("h5")
-                        print.textContent = result.quantidade
-
-                        results.appendChild(print)
-                    });
-                });
-        }
-        carregar();
-    </script>
 
         
     </body>
