@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Texte de japones</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+                <div class="col text-center">
+                    <h1 class="display-4">TESTE DE NIVEL DE UM TEXTO EM JAPONES</h1>
+                </div>
+        </div>
+            <div class="row">
+                <div class="col">
+                    <textarea class="form-control" placeholder="Insira o Texto!" name="texto"></textarea>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 2%;">
+                <div class="col">
+                    <button class="btn btn-lg btn-success" onclick="sendText();">Enviar</button>
+                </div>
+            </div>
+        <div class="row" style="margin-top: 2%;">
+            <div class="col-8">
+                <h5>Total de kanjis analisados:</h5>
+            </div>
+        </div>
+        <div class="row" id="print-results" style="margin-top: 2%;"></div>
+    </div>
+</body>
+
+<script>
+
+    async function sendText(){
+        try {
+            const response = await fetch('http://localhost:4041/test' , {
+                method: 'post',
+                headers: {
+                    'content-type': 'aplication/json',
+                },
+                body:  
+                    JSON.stringify({
+                        name: 'sdfsdfsdf',
+                    }),
+            });  
+            const data = await response.json();
+        } catch (error) {
+            console.error(error);
+        }
+       
+    }
+
+
+    async function getContent(){
+        try {
+            const response = await fetch("http://localhost:4041/test");  
+            const data = await response.json();
+            show(data);
+        } catch (error) {
+            console.error(erro);
+        }
+       
+    }
+    getContent();
+
+
+    function show(results){
+        let output = "";
+        for( let result of results){
+            output += `<ul><h5>${result.nivel}: ${result.quantidade}</h5></ul>`;
+            document.querySelector("#print-results").innerHTML = output;
+        }
+       
+    }
+
+</script>
+   
+</html>
